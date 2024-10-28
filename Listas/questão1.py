@@ -52,8 +52,8 @@ while True:
             print("Nenhum aluno encontrado nesse curso.")
     
     elif opcao == '5':
-        criterio = input("Ordenar por (nome, curso, data_nascimento): ")
-        if criterio in ['nome', 'curso', 'data_nascimento']:
+        criterio = input("Ordenar por (nome, curso ou nascimento): ")
+        if criterio in ['nome', 'curso', 'nascimento']:
             alunos_ordenados = sorted(alunos.items(), key=lambda x: x[1][criterio])
             for matricula, dados in alunos_ordenados:
                 print(f"Matrícula: {matricula}, Nome: {dados['nome']}, Curso: {dados['curso']}, Data de Nascimento: {dados['nascimento']}")
