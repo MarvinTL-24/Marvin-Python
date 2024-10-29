@@ -2,30 +2,52 @@ alunos = {}
 
 def cadastrar_aluno():
     nome = input("Nome do aluno: ")
-    matricula = input("Matrícula do aluno: ")
+    sexo = input("Sexo do aluno: ")
     curso = input("Curso do aluno: ")
     nascimento = input("Data de nascimento (dd/mm/aaaa): ")
-    alunos[matricula] = {
+    RG = input("RG do aluno: ")
+    cidade = input("Cidade do aluno: ")
+    local = input("Endereço do aluno: ")
+    grau_escolaridade = input("Grau de Escolaridade atual: ")
+    
+    # Coletando os nomes dos pais
+    pais = []
+    pai = input("Digite o nome do pai: ")
+    pais.append(pai)
+    mae = input("Digite o nome da mãe: ")
+    pais.append(mae)
+
+    telefone = input("Digite o telefone do aluno: ")
+    estado = input("Digite o estado do aluno: ")
+
+    alunos[RG] = {
         'nome': nome,
+        'sexo': sexo,
         'curso': curso,
-        'nascimento': nascimento
+        'nascimento': nascimento,
+        'cidade': cidade,
+        'endereco': local,
+        'grau_escolaridade': grau_escolaridade,
+        'pais': pais,
+        'telefone': telefone,
+        'estado': estado
     }
     print("Aluno cadastrado com sucesso!")
 
 def consultar_aluno():
-    pesquisa = input("Pesquisar por nome ou matrícula: ")
+    pesquisa = input("Pesquisar por nome ou RG: ")
     encontrado = False
-    for matricula, dados in alunos.items():
-        if pesquisa.lower() in dados['nome'].lower() or pesquisa == matricula:
-            print(f"Matrícula: {matricula}, Nome: {dados['nome']}, Curso: {dados['curso']}, Data de Nascimento: {dados['nascimento']}")
+    for rg, dados in alunos.items():
+        if pesquisa.lower() in dados['nome'].lower() or pesquisa == rg:
+            print(f"RG: {rg}, Nome: {dados['nome']}, Sexo: {dados['sexo']}, Curso: {dados['curso']}, Data de Nascimento: {dados['nascimento']}")
             encontrado = True
     if not encontrado:
         print("Aluno não encontrado.")
 
 def excluir_aluno():
-    matricula = input("Matrícula do aluno a ser excluído: ")
-    if matricula in alunos:
-        del alunos[matricula]
+    rg = input("RG do aluno a ser excluído: ")
+    if rg in alunos:
+        del alunos[rg]
         print("Aluno excluído com sucesso!")
     else:
         print("Aluno não encontrado.")
@@ -40,11 +62,13 @@ def pesquisar_por_curso():
         print("Nenhum aluno encontrado nesse curso.")
 
 def gerar_relatorio():
-    criterio = input("Ordenar por (nome, curso ou nascimento): ")
-    if criterio in ['nome', 'curso', 'nascimento']:
+    criterio = input("Ordenar por (nome, curso, nascimento, RG, cidade, endereco, grau_escolaridade, pais, telefone, estado): ")
+    if criterio in ['nome', 'curso', 'nascimento', 'RG', 'cidade', 'endereco', 'grau_escolaridade', 'pais', 'telefone', 'estado']:
         alunos_ordenados = sorted(alunos.items(), key=lambda x: x[1][criterio])
-        for matricula, dados in alunos_ordenados:
-            print(f"Matrícula: {matricula}, Nome: {dados['nome']}, Curso: {dados['curso']}, Data de Nascimento: {dados['nascimento']}")
+        for rg, dados in alunos_ordenados:
+            print(f"RG: {rg}, Nome: {dados['nome']}, Curso: {dados['curso']}, Data de Nascimento: {dados['nascimento']}, "
+                  f"Cidade: {dados['cidade']}, Endereço: {dados['endereco']}, Nome dos pais: {', '.join(dados['pais'])}, "
+                  f"Telefone: {dados['telefone']}, Grau de escolaridade: {dados['grau_escolaridade']}, Estado: {dados['estado']}")
     else:
         print("Critério de ordenação inválido.")
 
