@@ -1,4 +1,4 @@
-saldo = 500  # Saldo inicial da conta
+saldo = 500  
 saques = 0  # Contador de saques
 
 def saqueando():
@@ -40,21 +40,21 @@ if escolha == '1':
 
         optativa = input("Digite a ação desejada: ")
         print('-----------------------------------------------------------------------------------------------------')
-        if optativa == '1':  # Saque
+        if optativa == '1': 
             print(f'A sua conta bancaria tem atualmente o saldo de R${saldo} reais.\n')
             saqueando()
             print('-----------------------------------------------------------------------------------------------------')
-        elif optativa == '2':  # Depósito
+        elif optativa == '2': 
             print(f'A sua conta bancaria tem atualmente o saldo de R${saldo} reais.\n')
             depositando()
             print('-----------------------------------------------------------------------------------------------------')
-        elif optativa == '3':  # Extrato
+        elif optativa == '3': 
             print(f'O saldo atual da sua conta é R${saldo:.2f}.')
             print('-----------------------------------------------------------------------------------------------------')
-        elif optativa == '4':  # Sair
+        elif optativa == '4': 
             print('Obrigado por utilizar o serviço bancário. Até logo.')
             print('-----------------------------------------------------------------------------------------------------')
-            break  # Sai do loop e finaliza o programa
+            break  
         else:
             print("Ação inválida.")
             print('-----------------------------------------------------------------------------------------------------')

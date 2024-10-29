@@ -62,7 +62,7 @@ def pesquisar_por_curso():
         print("Nenhum aluno encontrado nesse curso.")
 
 def gerar_relatorio():
-    criterio = input("Ordenar por (nome, curso, nascimento, RG, cidade, endereco, grau_escolaridade, pais, telefone, estado): ")
+    criterio = input("Pode-se criar um relatorio com um dos seguintes dados.\nDigite o dado que souber dentre (nome, curso, nascimento, RG, cidade, endereco, grau_escolaridade, pais, telefone, estado): ")
     if criterio in ['nome', 'curso', 'nascimento', 'RG', 'cidade', 'endereco', 'grau_escolaridade', 'pais', 'telefone', 'estado']:
         alunos_ordenados = sorted(alunos.items(), key=lambda x: x[1][criterio])
         for rg, dados in alunos_ordenados:
@@ -76,6 +76,7 @@ def salvar_dados():
     # TODO: Implementar a funcionalidade de salvar dados
     print("Salvar dados - ainda não implementado")
 
+print('-----------------------------------------------------------------------------------------------------')
 while True:
     print("\nMenu Principal:")
     print("1. Cadastrar aluno")
@@ -85,23 +86,40 @@ while True:
     print("5. Gerar relatório")
     print("6. Salvar dados")
     print("7. Sair")
-        
+    print('-----------------------------------------------------------------------------------------------------')
+
     opcao = input("Escolha uma opção: ")
     
     if opcao == '1':
+        print('-----------------------------------------------------------------------------------------------------')
         cadastrar_aluno()
+        print('-----------------------------------------------------------------------------------------------------')
     elif opcao == '2':
+        print('-----------------------------------------------------------------------------------------------------')
         consultar_aluno()
+        print('-----------------------------------------------------------------------------------------------------')
     elif opcao == '3':
+        print('-----------------------------------------------------------------------------------------------------')
         excluir_aluno()
+        print('-----------------------------------------------------------------------------------------------------')
     elif opcao == '4':
+        print('-----------------------------------------------------------------------------------------------------')
         pesquisar_por_curso()
+        print('-----------------------------------------------------------------------------------------------------')
     elif opcao == '5':
+        print('-----------------------------------------------------------------------------------------------------')
         gerar_relatorio()
+        print('-----------------------------------------------------------------------------------------------------')
     elif opcao == '6':
+        print('-----------------------------------------------------------------------------------------------------')
         salvar_dados()
+        print('-----------------------------------------------------------------------------------------------------')
     elif opcao == '7':
+        print('-----------------------------------------------------------------------------------------------------')
         print("Saindo do programa.")
+        print('-----------------------------------------------------------------------------------------------------')
         break
     else:
+        print('-----------------------------------------------------------------------------------------------------')
         print("Opção inválida. Tente novamente.")
+        print('-----------------------------------------------------------------------------------------------------')
