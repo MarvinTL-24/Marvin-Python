@@ -3,9 +3,9 @@ def adicionar_itens():
     quantidade = []
     valores = []
 
-    lista = int(input("Digite a quantidade de itens que deseja comprar: --> "))
+    lista = int(input("Digite o volume total do seu carrinho: --> "))
 
-    for n in range(lista):
+    for _ in range(lista):
         compras = input("Digite o nome do item desejado: --> ")
         numeros = int(input("Digite a quantidade do item desejado: --> "))
         valor = float(input("Digite o valor do produto: --> "))
@@ -19,15 +19,33 @@ def adicionar_itens():
 
 def calcular_totais(itens, quantidade, valores):
     soma_total = []
+    total_itens = sum(quantidade) 
     print("\nLista de Compras:")
+    
     for i in range(len(itens)):
         total_item = quantidade[i] * valores[i]
         soma_total.append(total_item)
         print(f" Item: {itens[i]}.\n Quantidade: {quantidade[i]}.\n Valor: R${valores[i]:.2f}.\n Total: R${total_item:.2f}")
 
     valor_total = sum(soma_total)
+
+    # Aplicando desconto
+    desconto = 0
+    if total_itens >= 50:
+        desconto = 0.15
+    elif total_itens >= 20:
+        desconto = 0.10
+    elif total_itens >= 10:
+        desconto = 0.05
+
+    valor_total_com_desconto = valor_total * (1 - desconto)
     print(f"O valor total será: R${valor_total:.2f}")
-    return valor_total
+    if desconto > 0:
+        print(f"Desconto de {desconto * 100:.0f}% aplicado. Novo valor total: R${valor_total_com_desconto:.2f}")
+    else:
+        print("Nenhum desconto aplicado.")
+
+    return valor_total_com_desconto
 
 
 def salvar_lista(itens, quantidade, valores, valor_total):
