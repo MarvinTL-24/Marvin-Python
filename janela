@@ -1,28 +1,61 @@
 import tkinter as tk
-class NoteApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Aplicação de Notas")
-        self.root.geometry("400x300")
 
-        # Entrada de texto
-        self.entry = tk.Entry(root,width=50)
-        self.entry.pack(pady=10)
+# Criando a janela principal
+root = tk.Tk()
+root.title("Testando Tkinter")
+root.geometry("500x400")  # Ajuste no tamanho da janela
 
-        # Botão para adicionar nota
-        self.add_button = tk.Button(root, text="Adicionar Nota", command=self.add_note)
-        self.add_button.pack(pady=5)
+# Saudação inicial
+greeting_label = tk.Label(
+    root,
+    text="Bem vindo!",
+    fg="white",
+    bg="darkblue",
+    font=("Helvetica", 16, "bold"),
+    width=30,
+    height=2
+)
+greeting_label.pack(pady=20)  # Espaço entre o label e o resto dos widgets
 
-        # Área de texto para listar notas
-        self.text_area = tk.Text(root, width=50, height=10)
-        self.text_area.pack(pady=10)
+# Entrada de texto
+entry = tk.Entry(
+    root,
+    fg="black",
+    bg="lightyellow",
+    font=("Arial", 14),
+    width=40
+)
+entry.pack(pady=10)
 
-    def add_note(self):
-        note = self.entry.get()
-        self.text_area.insert(tk.END, note + "\n")
-        self.entry.delete(0, tk.END)
+# Função do botão
+def on_button_click():
+    input_text = entry.get()
+    # Exibir mensagem de saudação no console
+    print(f"Botão clicado! Texto inserido: {input_text}")
+    greeting_label.config(text=f"Olá, {input_text}!")  # Atualiza o label com o nome inserido
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = NoteApp(root)
-    root.mainloop()
+# Criação do botão
+button = tk.Button(
+    root,
+    text="Clique Aqui",
+    font=("Arial", 14),
+    bg="green",
+    fg="white",
+    command=on_button_click
+)
+button.pack(pady=20)  # Espaço entre o botão e outros widgets
+
+# Área de resultado
+result_area = tk.Label(
+    root,
+    text="Digite seu nome e clique no botão",
+    fg="black",
+    bg="lightgray",
+    font=("Arial", 12),
+    width=50,
+    height=4
+)
+result_area.pack(pady=10)
+
+# Controle para o loop principal da interface gráfica
+root.mainloop()
