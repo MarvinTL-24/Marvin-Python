@@ -31,13 +31,13 @@ entry.pack(pady=10)
 def on_button_click():
     input_text = entry.get()
     # Exibir mensagem de saudação no console
-    print(f"Botão clicado! Texto inserido: {input_text}")
-    greeting_label.config(text=f"Olá, {input_text}!")  # Atualiza o label com o nome inserido
+    print(f"Botão clicado! O texto digitado: {input_text}")
+    greeting_label.config(text=f"E ai, {input_text}!")  # Atualiza o label com o nome inserido
 
 # Criação do botão
 button = tk.Button(
     root,
-    text="Clique Aqui",
+    text="Clique logo",
     font=("Arial", 14),
     bg="green",
     fg="white",
