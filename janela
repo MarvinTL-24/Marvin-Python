@@ -37,7 +37,7 @@ def on_button_click():
 # Criação do botão
 button = tk.Button(
     root,
-    text="Clique logo",
+    text="Clique",
     font=("Arial", 14),
     bg="green",
     fg="white",
