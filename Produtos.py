@@ -1,35 +1,33 @@
-def adicionar_itens():
-    itens = []
-    quantidade = []
-    valores = []
+import tkinter as tk
+from tkinter import messagebox
 
-    lista = int(input("Digite o volume total do seu carrinho: --> "))
+def adicionar_itens_gui():
+    item = entry_item.get()
+    try:
+        quantidade = int(entry_quantidade.get())
+        valor = float(entry_valor.get())
+        
+        if item and quantidade > 0 and valor > 0:
+            itens.append(item)
+            quantidade_items.append(quantidade)
+            valores_items.append(valor)
 
-    for _ in range(lista):
-        compras = input("Digite o nome do item desejado: --> ")
-        numeros = int(input("Digite a quantidade do item desejado: --> "))
-        valor = float(input("Digite o valor do produto: --> "))
+            listbox_itens.insert(tk.END, f"{item} - Quantidade: {quantidade} - Valor Unitário: R${valor:.2f}")
+            limpar_entradas()
 
-        itens.append(compras)
-        quantidade.append(numeros)
-        valores.append(valor)
+        else:
+            messagebox.showerror("Erro", "Quantidade e valor devem ser positivos e maior que zero!")
+    except ValueError:
+        messagebox.showerror("Erro", "Quantidade deve ser um número inteiro e Valor um número válido!")
 
-    return itens, quantidade, valores
+def calcular_totais_gui():
+    soma_total = 0
+    total_itens = sum(quantidade_items)
 
-
-def calcular_totais(itens, quantidade, valores):
-    soma_total = []
-    total_itens = sum(quantidade) 
-    print("\nLista de Compras:")
-    
     for i in range(len(itens)):
-        total_item = quantidade[i] * valores[i]
-        soma_total.append(total_item)
-        print(f" Item: {itens[i]}.\n Quantidade: {quantidade[i]}.\n Valor: R${valores[i]:.2f}.\n Total: R${total_item:.2f}")
+        total_item = quantidade_items[i] * valores_items[i]
+        soma_total += total_item
 
-    valor_total = sum(soma_total)
-
-    # Aplicando desconto
     desconto = 0
     if total_itens >= 50:
         desconto = 0.15
@@ -38,44 +36,86 @@ def calcular_totais(itens, quantidade, valores):
     elif total_itens >= 10:
         desconto = 0.05
 
-    valor_total_com_desconto = valor_total * (1 - desconto)
-    print(f"O valor total será: R${valor_total:.2f}")
-    if desconto > 0:
-        print(f"Desconto de {desconto * 100:.0f}% aplicado. Novo valor total: R${valor_total_com_desconto:.2f}")
-    else:
-        print("Nenhum desconto aplicado.")
-
-    return valor_total_com_desconto
-
-
-def salvar_lista(itens, quantidade, valores, valor_total):
-    with open("lista_compras.txt", "w") as file:
-        file.write("Lista de Compras:\n")
-        for i in range(len(itens)):
-            total_item = quantidade[i] * valores[i]
-            file.write(f"Item: {itens[i]}, Quantidade: {quantidade[i]}, Valor: R${valores[i]:.2f}, Total: R${total_item:.2f}\n")
-        file.write(f"Valor Total: R${valor_total:.2f}\n")
-    print("Lista salva em 'lista_compras.txt'.")
-
-
-def menu():
-    itens, quantidade, valores = [], [], []
-    continuar = 's'
+    valor_total_com_desconto = soma_total * (1 - desconto)
+    result_text.set(f"Valor Total: R${soma_total:.2f}\nDesconto: {desconto * 100:.0f}%\nTotal com Desconto: R${valor_total_com_desconto:.2f}")
     
-    while continuar.lower() == 's':
-        itens_temp, quantidade_temp, valores_temp = adicionar_itens()
-        itens.extend(itens_temp)
-        quantidade.extend(quantidade_temp)
-        valores.extend(valores_temp)
+def salvar_lista_gui():
+    if not itens:
+        messagebox.showwarning("Aviso", "Não há itens para salvar!")
+        return
 
-        continuar = input("Deseja continuar digitando itens? (s/n): --> ")
+    try:
+        with open("lista_compras.txt", "w") as file:
+            file.write("Lista de Compras:\n")
+            for i in range(len(itens)):
+                total_item = quantidade_items[i] * valores_items[i]
+                file.write(f"Item: {itens[i]}, Quantidade: {quantidade_items[i]}, Valor: R${valores_items[i]:.2f}, Total: R${total_item:.2f}\n")
+            
+            file.write("\n")
+            file.write(result_text.get())
+        
+        messagebox.showinfo("Sucesso", "Lista salva com sucesso!")
+    except Exception as e:
+        messagebox.showerror("Erro", f"Erro ao salvar o arquivo: {e}")
 
-    valor_total = calcular_totais(itens, quantidade, valores)
-    salvar_opcao = input("Deseja salvar a lista em um arquivo? (s/n): --> ")
+def limpar_entradas():
+    entry_item.delete(0, tk.END)
+    entry_quantidade.delete(0, tk.END)
+    entry_valor.delete(0, tk.END)
 
-    if salvar_opcao.lower() == 's':
-        salvar_lista(itens, quantidade, valores, valor_total)
+# Criando a interface gráfica
+root = tk.Tk()
+root.title("Carrinho de Compras")
+root.geometry("600x500")
 
+itens = []
+quantidade_items = []
+valores_items = []
 
-if __name__ == "__main__":
-    menu()
+# Frame de entrada de dados
+frame_entrada = tk.Frame(root)
+frame_entrada.pack(pady=20)
+
+label_item = tk.Label(frame_entrada, text="Nome do item:")
+label_item.grid(row=0, column=0, padx=5)
+
+entry_item = tk.Entry(frame_entrada, width=30)
+entry_item.grid(row=0, column=1, padx=5)
+
+label_quantidade = tk.Label(frame_entrada, text="Quantidade:")
+label_quantidade.grid(row=1, column=0, padx=5)
+
+entry_quantidade = tk.Entry(frame_entrada, width=30)
+entry_quantidade.grid(row=1, column=1, padx=5)
+
+label_valor = tk.Label(frame_entrada, text="Valor: R$ ")
+label_valor.grid(row=2, column=0, padx=5)
+
+entry_valor = tk.Entry(frame_entrada, width=30)
+entry_valor.grid(row=2, column=1, padx=5)
+
+# Botão para adicionar item
+button_adicionar = tk.Button(root, text="Adicionar Item", command=adicionar_itens_gui, width=20)
+button_adicionar.pack(pady=10)
+
+# Lista de itens
+listbox_itens = tk.Listbox(root, width=80, height=10)
+listbox_itens.pack(pady=10)
+
+# Frame de resultados
+frame_resultados = tk.Frame(root)
+frame_resultados.pack(pady=20)
+
+result_text = tk.StringVar()
+label_resultados = tk.Label(frame_resultados, textvariable=result_text, justify=tk.LEFT)
+label_resultados.pack()
+
+# Botões de ação
+button_calcular = tk.Button(root, text="Calcular Total", command=calcular_totais_gui, width=20)
+button_calcular.pack(pady=5)
+
+button_salvar = tk.Button(root, text="Salvar Lista", command=salvar_lista_gui, width=20)
+button_salvar.pack(pady=5)
+
+# Iniciando o loop da interface
+root.mainloop()
