@@ -1,3 +1,5 @@
+import tkinter as tk
+from tkinter import messagebox
 from datetime import datetime
 
 class Aluno:
@@ -6,51 +8,25 @@ class Aluno:
         self.matricula = matricula
         self.curso = curso
         self.data_nascimento = data_nascimento
-        self.notas = Notas()
-
-    @property
-    def nome(self):
-        return self._nome
-
-    @nome.setter
-    def nome(self, novo_nome):
-        self._nome = novo_nome
-
-    @property
-    def matricula(self):
-        return self._matricula
-
-    @matricula.setter
-    def matricula(self, nova_matricula):
-        self._matricula = nova_matricula
-
-    @property
-    def curso(self):
-        return self._curso
-
-    @curso.setter
-    def curso(self, novo_curso):
-        self._curso = novo_curso
-
-    @property
-    def data_nascimento(self):
-        return self._data_nascimento
-
-    @data_nascimento.setter
-    def data_nascimento(self, nova_data_nascimento):
-        self._data_nascimento = nova_data_nascimento
+        self.notas = {}  # Dicionário para armazenar listas de notas por disciplina
 
     def idade(self):
         nascimento = datetime.strptime(self.data_nascimento, "%d/%m/%Y")
         hoje = datetime.now()
         return hoje.year - nascimento.year - ((hoje.month, hoje.day) < (nascimento.month, nascimento.day))
 
+    def adicionar_notas(self, disciplina, notas):
+        self.notas[disciplina] = notas
+
+    def calcular_media_curso(self):
+        total_notas = sum(sum(notas) for notas in self.notas.values())
+        quantidade_notas = sum(len(notas) for notas in self.notas.values())
+        return total_notas / quantidade_notas if quantidade_notas > 0 else 0.0
+
     def __str__(self):
-        return (f"Nome: {self.nome}\n"
-                f"Matrícula: {self.matricula}\n"
-                f"Curso: {self.curso}\n"
-                f"Data de Nascimento: {self.data_nascimento}\n"
-                f"Notas:\n{self.notas}")
+        notas_str = '\n'.join([f"{disciplina}: {', '.join(map(str, notas))}" for disciplina, notas in self.notas.items()])
+        return (f"Nome: {self.nome}\nMatrícula: {self.matricula}\nCurso: {self.curso}\n"
+                f"Data de Nascimento: {self.data_nascimento}\nNotas:\n{notas_str}")
 
 class SistemaCadastroAlunos:
     def __init__(self):
@@ -59,9 +35,6 @@ class SistemaCadastroAlunos:
     def adicionar_aluno(self, aluno):
         self.alunos.append(aluno)
 
-    def buscar_aluno_por_nome(self, nome):
-        return next((aluno for aluno in self.alunos if aluno.nome.lower() == nome.lower()), None)
-
     def buscar_aluno_por_matricula(self, matricula):
         return next((aluno for aluno in self.alunos if aluno.matricula == matricula), None)
 
@@ -69,133 +42,103 @@ class SistemaCadastroAlunos:
         aluno = self.buscar_aluno_por_matricula(matricula)
         if aluno:
             self.alunos.remove(aluno)
-            print("Aluno excluído com sucesso!")
-        else:
-            print("Aluno não encontrado.")
+            return True
+        return False
 
-class Notas:
-    def __init__(self):
-        self.notas = []
+class Aplicacao:
+    def __init__(self, root):
+        self.sistema = SistemaCadastroAlunos()
+        self.root = root
+        self.root.title("Sistema de Cadastro de Alunos")
 
-    def adicionar_nota(self, disciplina, nota):
-        if 0 <= nota <= 10:
-            self.notas.append({"disciplina": disciplina, "nota": nota})
-        else:
-            print(f"Erro: Nota inválida ({nota}). Deve estar entre 0 e 10.")
+        # Dicionário de cursos disponíveis
+        self.cursos = {"Programação", "Designer"}
+        self.create_widgets()
 
-    def get_notas(self):
-        return self.notas
+    def create_widgets(self):
+        # Widgets de cadastro de aluno
 
-    def calcular_media(self):
-        if not self.notas:
-            return 0.0
-        return sum(nota["nota"] for nota in self.notas) / len(self.notas)
+        tk.Label(self.root, text="Data de Nascimento (DD/MM/YYYY):").grid(row=3, column=0, sticky="ew")
+        self.nascimento_entry = tk.Entry(self.root, bd=2, relief="solid")
+        self.nascimento_entry.grid(row=3, column=1, pady=2, sticky="ew")
 
-    def __str__(self):
-        return '\n'.join([f"{nota['disciplina']}: {nota['nota']}" for nota in self.notas])
+        tk.Label(self.root, text="Nome:").grid(row=0, column=0, sticky="ew")
+        self.nome_entry = tk.Entry(self.root, bd=2, relief="solid")
+        self.nome_entry.grid(row=0, column=1, pady=2, sticky="ew")
 
-class Curso:
-    def __init__(self, nome, disciplinas):
-        self.nome = nome
-        self.disciplinas = disciplinas
+        tk.Label(self.root, text="Matrícula:").grid(row=1, column=0, sticky="ew")
+        self.matricula_entry = tk.Entry(self.root, bd=2, relief="solid")
+        self.matricula_entry.grid(row=1, column=1, pady=2, sticky="ew")
 
-    def __str__(self):
-        return f"Curso: {self.nome}, Disciplinas: {', '.join(self.disciplinas)}"
+        tk.Label(self.root, text="Curso:").grid(row=2, column=0, sticky="ew")
+        self.curso_entry = tk.Entry(self.root, bd=2, relief="solid")
+        self.curso_entry.grid(row=2, column=1, pady=2, sticky="ew")
 
-def main():
-    sistema = SistemaCadastroAlunos()
-    cursos = {
-        "Engenharia": ["Matemática", "Física", "Química"],
-        "Administração": ["Economia", "Gestão", "Marketing"]
-    }
+        tk.Label(self.root, text="Disciplina:").grid(row=4, column=0, sticky="ew")
+        self.disciplina_entry = tk.Entry(self.root, bd=2, relief="solid")
+        self.disciplina_entry.grid(row=4, column=1, pady=2, sticky="ew")
 
-    while True:
-        print('-----------------------------------------------------------------------------------------------------')
-        print("\nMenu Principal:")
-        print("1. Cadastrar Aluno")
-        print("2. Consultar Aluno")
-        print("3. Excluir Aluno")
-        print("4. Notas do Aluno")
-        print("5. Adicionar Notas ao Aluno")
-        print("6. Calcular Média do Aluno")
-        print("7. Sair")
-        print('-----------------------------------------------------------------------------------------------------')
-        opcao = input("Digite sua opção: ")
+        tk.Label(self.root, text="Notas (separadas por vírgula):").grid(row=5, column=0, sticky="ew")
+        self.notas_entry = tk.Entry(self.root, bd=2, relief="solid")
+        self.notas_entry.grid(row=5, column=1, pady=2, sticky="ew")
 
-        if opcao == "1":
-            nome = input("Nome: ")
-            matricula = input("Matrícula: ")
-            curso_nome = input("Curso (Engenharia/Administração): ")
-            if curso_nome not in cursos:
-                print("Curso inválido. Tente novamente.")
-                continue
-            data_nascimento = input("Data de Nascimento (DD/MM/YYYY): ")
-            aluno = Aluno(nome, matricula, curso_nome, data_nascimento)
+        self.cadastrar_button = tk.Button(self.root, text="Cadastrar Aluno", command=self.cadastrar_aluno)
+        self.cadastrar_button.grid(row=6, column=0, columnspan=2, pady=5, sticky="ew")
+
+        self.adicionar_notas_button = tk.Button(self.root, text="Adicionar Notas", command=self.adicionar_notas)
+        self.adicionar_notas_button.grid(row=7, column=0, columnspan=2, pady=5, sticky="ew")
+
+        # Botão para salvar alunos
+        self.salvar_button = tk.Button(self.root, text="Salvar Alunos", command=self.salvar)
+        self.salvar_button.grid(row=8, column=0, columnspan=2, pady=5, sticky="ew")
+
+    def cadastrar_aluno(self):
+        nome = self.nome_entry.get()
+        matricula = self.matricula_entry.get()
+        curso = self.curso_entry.get()
+        data_nascimento = self.nascimento_entry.get()
+
+        if curso not in self.cursos:
+            messagebox.showerror("Erro", "Curso inválido.")
+            return
+
+        try:
+            aluno = Aluno(nome, matricula, curso, data_nascimento)
             if aluno.idade() < 0:
-                print("Data de nascimento inválida. O aluno não pode ser cadastrado.")
-                continue
-            sistema.adicionar_aluno(aluno)
-            print("Aluno cadastrado com sucesso!")
-            print('-----------------------------------------------------------------------------------------------------')
+                raise ValueError("Data de nascimento inválida.")
+            self.sistema.adicionar_aluno(aluno)
+            messagebox.showinfo("Sucesso", "Aluno cadastrado com sucesso!")
+        except ValueError as e:
+            messagebox.showerror("Erro", str(e))
 
-        elif opcao == "2":
-            nome = input("Nome do aluno a ser consultado: ")
-            aluno = sistema.buscar_aluno_por_nome(nome)
-            if aluno:
-                print(aluno)
-            else:
-                print("Aluno não encontrado.")
-            print('-----------------------------------------------------------------------------------------------------')
+    def adicionar_notas(self):
+        matricula = self.matricula_entry.get()
+        disciplina = self.disciplina_entry.get()
+        notas_texto = self.notas_entry.get()
+        aluno = self.sistema.buscar_aluno_por_matricula(matricula)
 
-        elif opcao == "3":
-            matricula = input("Matrícula do aluno a ser excluído: ")
-            sistema.excluir_aluno(matricula)
-            print('-----------------------------------------------------------------------------------------------------')
+        if not aluno:
+            messagebox.showerror("Erro", "Aluno não encontrado.")
+            return
 
-        elif opcao == "4":
-            matricula = input("Matrícula do aluno para consultar notas: ")
-            aluno = sistema.buscar_aluno_por_matricula(matricula)
-            if aluno:
-                print(aluno.notas)
-            else:
-                print("Aluno não encontrado.")
-            print('-----------------------------------------------------------------------------------------------------')
+        try:
+            notas = list(map(float, notas_texto.split(',')))
+            aluno.adicionar_notas(disciplina, notas)
+            messagebox.showinfo("Sucesso", "Notas adicionadas com sucesso!")
+        except ValueError:
+            messagebox.showerror("Erro", "Formato de notas inválido.")
 
-        elif opcao == "5":
-            matricula = input("Matrícula do aluno para adicionar notas: ")
-            aluno = sistema.buscar_aluno_por_matricula(matricula)
-            if aluno:
-                for i in range(3):
-                    disciplina = input(f"Disciplina {i + 1} ({', '.join(cursos[aluno.curso])}): ")
-                    if disciplina in cursos[aluno.curso]:
-                        try:
-                            nota = float(input(f"Nota para {disciplina} (0 a 10): "))
-                            aluno.notas.adicionar_nota(disciplina, nota)
-                            print("Nota adicionada com sucesso!")
-                        except ValueError:
-                            print("Erro: Entrada inválida. Por favor, insira um número.")
-                    else:
-                        print("Disciplina inválida. Tente novamente.")
-            else:
-                print("Aluno não encontrado.")
-            print('-----------------------------------------------------------------------------------------------------')
+    def salvar(self):
+        with open("Cadastro.txt", "w") as file:
+            file.write("Cadastro de alunos:\n\n")
+            for aluno in self.sistema.alunos:
+                file.write(str(aluno) + "\n\n")
+            messagebox.showinfo("Sucesso", "Dados salvos em 'Cadastro.txt'.")
 
-        elif opcao == "6":
-            matricula = input("Matrícula do aluno para calcular média: ")
-            aluno = sistema.buscar_aluno_por_matricula(matricula)
-            if aluno:
-                media = aluno.notas.calcular_media()
-                print(f"Média das notas do aluno {aluno.nome}: {media:.2f}")
-            else:
-                print("Aluno não encontrado.")
-            print('-----------------------------------------------------------------------------------------------------')
-
-        elif opcao == "7":
-            break
-
-        else:
-            print("Opção inválida!")
-            print('-----------------------------------------------------------------------------------------------------')
-
+# Criando a janela principal
 if __name__ == "__main__":
-    main()
+    root = tk.Tk()
+    app = Aplicacao(root)
+    root.title("Cadastros de Alunos")
+    root.geometry("400x500")  # Ajuste no tamanho da janela
+    root.mainloop()

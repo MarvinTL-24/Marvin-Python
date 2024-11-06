@@ -1,5 +1,0 @@
-Lista de Compras:
-Item: calça, Quantidade: 2, Valor: R$4.60, Total: R$9.20
-Item: lata, Quantidade: 5, Valor: R$3.70, Total: R$18.50
-Item: ovos, Quantidade: 6, Valor: R$3.00, Total: R$18.00
-Valor Total: R$43.41
