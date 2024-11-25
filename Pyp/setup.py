@@ -13,7 +13,7 @@ setup(
     description='O programa é uma ferramenta educacional que abrange uma ampla gama de conceitos fundamentais e avançados de matemática escolar. Ele está estruturado em diferentes módulos, cada um abordando um conjunto específico de tópicos, desde operações básicas até álgebra, geometria, trigonometria, equações, estatísticas e progressões. O objetivo do programa é proporcionar uma maneira prática e acessível para estudantes e professores resolverem problemas matemáticos e aprenderem conceitos de forma interativa.',  # Breve descrição
     long_description=readme,  # Descrição longa retirada do README.md
     long_description_content_type="text/markdown",  # Formato do README
-    url='https://github.com/MarvinTL-24/MatematicaEducacional',  # Link para o seu GitHub
+    url='https://github.com/MarvinTL-24/Marvin-Python',  # Link para o seu GitHub
     keywords=['github', 'Matematica', 'Educação', 'Ensino', 'Matemática'],  # Palavras-chave relevantes
     packages=['Matematica'],  # Pasta do pacote Python
     classifiers=[
@@ -23,7 +23,7 @@ setup(
     ],
     python_requires='>=3.6',  # Versão mínima do Python necessária
     project_urls={  # Links úteis
-        "Bug Tracker": "https://github.com/MarvinTL-24/issues",
-        "Source Code": "https://github.com/MarvinTL-24/MatematicaEducacional",
+        "Bug Tracker": "https://github.com/MarvinTL-24",
+        "Source Code": "https://github.com/MarvinTL-24/Marvin-Python",
     },
 )
