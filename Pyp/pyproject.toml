@@ -1,0 +1,19 @@
+[project]
+name = "MatematicaEducacional"
+version = "0.0.1"
+authors = [
+  { name = "MarvinTL-24", email = "descrentetrabalhador@gmail.com" },
+]
+description = "O programa é uma ferramenta educacional que abrange uma ampla gama de conceitos fundamentais e avançados de matemática escolar. Ele está estruturado em diferentes módulos, cada um abordando um conjunto específico de tópicos, desde operações básicas até álgebra, geometria, trigonometria, equações, estatísticas e progressões. O objetivo do programa é proporcionar uma maneira prática e acessível para estudantes e professores resolverem problemas matemáticos e aprenderem conceitos de forma interativa."
+readme = "README.md"
+requires-python = ">=3.6"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/MarvinTL-24/Marvin-Python"
+Issues = "https://github.com/MarvinTL-24/Marvin-Python/issues"
