@@ -7,10 +7,21 @@
         <style>
             /* Estilos gerais */
             body {
-                font-family: Arial, sans-serif;
-                background-color: #8f8fac;
-                margin: 0;
-                padding: 0;
+              font-family: Arial, sans-serif;
+              background-image: url('/WEB/img/218623.jpg'); /* Caminho da sua imagem de fundo */
+              background-size: cover;  /* A imagem cobre toda a área da tela */
+              background-position: center;  /* A imagem fica centralizada */
+              background-attachment: fixed; /* A imagem de fundo fica fixa ao rolar a página */
+              margin: 0;
+              padding: 0;
+              display: flex;              /* Usando Flexbox */
+              justify-content: center;    /* Centraliza horizontalmente */
+              align-items: center;        /* Centraliza verticalmente */
+              height: 100vh;              /* Altura total da tela */
+            }
+            form {
+              width: 80%; /* ou outra largura que preferir */
+              max-width: 600px; /* Para evitar que o formulário fique muito largo em telas grandes */
             }
 
             h1 {
@@ -29,12 +40,6 @@
                 box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             }
 
-            legend {
-                font-size: 1.5em;
-                font-weight: bold;
-                color: #333;
-            }
-
             table {
                 width: 100%;
                 margin-top: 10px;
@@ -46,7 +51,7 @@
                 vertical-align: middle;
             }
 
-            input[type="text"], input[type="number"], input[type="date"], select {
+            input[type="text"], input[type="number"], input[type="date"], input[type="email"], select {
                 width: 100%;
                 padding: 8px;
                 margin-top: 5px;
@@ -83,67 +88,59 @@
                 margin-top: 0;
             }
 
+            label {
+                font-weight: normal;
+                font-size: 1em;
+                color: #333;
+            }
         </style>
     </head>
     <body>
-        <h1>Cadastro de Dados</h1>
-        <form>
+        <form action="#" method="POST">
             <fieldset>
-                <legend>Dados Especiais</legend>
+              <h1>Cadastro de Dados</h1>
                 <table>
                     <tr>
-                        <td>Nome</td>
-                        <td><input type="text" placeholder="Digite seu nome"></td>
+                        <td><label for="nome">Nome</label></td>
+                        <td><input type="text" id="nome" name="nome" placeholder="Digite seu nome" required></td>
                     </tr>
                     <tr>
-                        <td>Idade</td>
-                        <td><input type="number" min="0" max="120" placeholder="Idade"></td>
+                        <td><label for="idade">Idade</label></td>
+                        <td><input type="number" id="idade" name="idade" min="0" max="120" placeholder="Idade" required></td>
                     </tr>
                     <tr>
-                        <td>Data de nascimento</td>
-                        <td><input type="date"></td>
+                        <td><label for="data-nascimento">Data de Nascimento</label></td>
+                        <td><input type="date" id="data-nascimento" name="data_nascimento" required></td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="text-align: center;">
-                            <input type="submit" value="Cadastrar">
-                            <input type="reset" value="Limpar">
-                        </td>
-                    </tr>
-                </table>
-            </fieldset>
-
-            <fieldset>
-                <legend>Dados Profissionais</legend>
-                <table>
-                    <tr>
-                        <td>Escolaridade</td>
+                        <td><label for="escolaridade">Escolaridade</label></td>
                         <td>
-                            <select>
-                                <option value="Escolha">--Situação--</option>
+                            <select id="escolaridade" name="escolaridade" required>
+                                <option value="">--Situação--</option>
                                 <option value="Ensino fundamental">Ensino fundamental</option>
-                                <option value="Ensino Medio">Ensino Médio</option>
-                                <option value="Universitario">Universitário</option>
+                                <option value="Ensino Médio">Ensino Médio</option>
+                                <option value="Universitário">Universitário</option>
                                 <option value="Formado">Formado</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <td>E-mail</td>
-                        <td><input type="text" placeholder="Digite seu e-mail"></td>
+                        <td><label for="email">E-mail</label></td>
+                        <td><input type="email" id="email" name="email" placeholder="Digite seu e-mail" required></td>
                     </tr>
                     <tr>
-                        <td>Tem experiência em TI?</td>
+                        <td><label for="experiencia">Tem experiência em TI?</label></td>
                         <td class="radio-group">
-                            <label><input type="radio" name="experiencia"> Sim</label>
-                            <label><input type="radio" name="experiencia"> Não</label>
+                            <label><input type="radio" id="experiencia-sim" name="experiencia" value="Sim"> Sim</label>
+                            <label><input type="radio" id="experiencia-nao" name="experiencia" value="Não"> Não</label>
                         </td>
                     </tr>
                     <tr>
-                        <td>Disponibilidade</td>
+                        <td><label>Disponibilidade</label></td>
                         <td class="checkbox-group">
-                            <label><input type="checkbox"> M</label>
-                            <label><input type="checkbox"> T</label>
-                            <label><input type="checkbox"> N</label>
+                            <label><input type="checkbox" id="disponibilidade-manha" name="disponibilidade[]" value="M"> Manhã</label>
+                            <label><input type="checkbox" id="disponibilidade-tarde" name="disponibilidade[]" value="T"> Tarde</label>
+                            <label><input type="checkbox" id="disponibilidade-noite" name="disponibilidade[]" value="N"> Noite</label>
                         </td>
                     </tr>
                     <tr>
