@@ -8,25 +8,25 @@ class Usuario(models.Model):
 
     # Dados Profissionais
     ESCOLARIDADE_CHOICES = [
-        ('Ensino fundamental'),
-        ('Ensino Médio'),
-        ('Universitário'),
-        ('Formado'),
+        ('Ensino fundamental','Ensino fundamental'),
+        ('Ensino Médio','Ensino Médio'),
+        ('Universitário','Universitário'),
+        ('Formado','Formado'),
     ]
     escolaridade = models.CharField(max_length=20, choices=ESCOLARIDADE_CHOICES)
     email = models.EmailField(max_length=255)
     
     EXPERIENCIA_CHOICES = [
-        ('Sim'),
-        ('Não'),
+        ('Sim','Sim'),
+        ('Não','Não'),
     ]
     experiencia_ti = models.CharField(max_length=3, choices=EXPERIENCIA_CHOICES)
 
     # Disponibilidade
     DISPONIBILIDADE_CHOICES = [
-        ('M'),
-        ('T'),
-        ('N'),
+        ('M','M'),
+        ('T','T'),
+        ('N','N'),
     ]
     disponibilidade = models.ManyToManyField('Disponibilidade', blank=True)
 
