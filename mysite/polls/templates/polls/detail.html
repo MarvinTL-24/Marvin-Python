@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ Question.Question_text }}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f4f6f9, #e2e8f0); /* Fundo em degradê */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background-color: #ffffff; /* Fundo branco */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra elegante */
+            text-align: center;
+        }
+        .question-text {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #333; /* Texto escuro */
+            font-weight: bold;
+        }
+        .form-check {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: #f8fafc; /* Fundo leve para opções */
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .form-check:hover {
+            background-color: #e9f7f1; /* Fundo em destaque ao passar o mouse */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .form-check-input {
+            margin-right: 10px;
+            transform: scale(1.2); /* Tamanho maior para inputs */
+            cursor: pointer;
+        }
+        .form-check-label {
+            color: #555;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        .form-check-input:checked + .form-check-label {
+            font-weight: bold;
+            color: #007bff; /* Destaque para a opção selecionada */
+        }
+        .btn-primary {
+            background-color: #28a745; /* Verde vibrante */
+            border-color: #28a745;
+            border-radius: 30px; /* Bordas arredondadas */
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            width: 100%;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: #218838; /* Cor mais escura ao passar o mouse */
+            transform: scale(1.05); /* Leve aumento ao passar o mouse */
+        }
+        .btn-primary:active {
+            background-color: #1e7e34; /* Cor de clique */
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .question-text {
+                font-size: 1.5rem;
+            }
+            .btn-primary {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4 text-primary">Detalhes da Pergunta</h1>
+        <div class="question-text">
+            <p>{{ Question.Question_text }}</p>
+        </div>
+        <form action="{% url 'polls:vote' question.id %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {% for choice in question.choice_set.all %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                        <label class="form-check-label" for="choice{{ forloop.counter }}">
+                            {{ choice.choice_text }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn-primary">Votar</button>
+        </form>
+    </div>
+</body>
+</html>

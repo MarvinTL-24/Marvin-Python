@@ -1,0 +1,55 @@
+body {
+  padding: 0;
+  background-color: #f4f6f9; /* Cor de fundo suave */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  max-width: 600px;
+  width: 100%;
+}
+.question-text {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #333; /* Cor de texto escuro */
+  font-weight: bold;
+  text-align: center;
+}
+.choice {
+  margin-bottom: 15px;
+}
+.form-check-label {
+  color: #555; /* Cor escura para as opções */
+  font-size: 1.1rem;
+}
+.form-check-input {
+  border-radius: 50%;
+}
+.btn-primary {
+  background-color: #28a745; /* Cor verde para o botão */
+  border-color: #28a745;
+  border-radius: 30px; /* Bordas arredondadas */
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  width: 100%;
+}
+.btn-primary:hover {
+  background-color: #218838; /* Cor mais escura quando passa o mouse */
+  border-color: #1e7e34;
+}
+.form-check-input:checked + .form-check-label {
+  font-weight: bold;
+  color: #007bff; /* Destaque para a escolha selecionada */
+}
+.form-check-input {
+  transition: all 0.3s ease;
+}
+.form-check-input:hover {
+  transform: scale(1.1); /* Efeito de aumento quando passa o mouse */
+}
+.form-group {
+  margin-bottom: 30px;
+}

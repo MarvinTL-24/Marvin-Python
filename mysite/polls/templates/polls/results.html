@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados: {{ question.question_text }}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f4f6f9, #e2e8f0); /* Fundo degradê suave */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #ffffff; /* Fundo branco */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra leve */
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            color: #007bff; /* Título em azul elegante */
+            margin-bottom: 20px;
+        }
+        .result-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8fafc; /* Fundo leve para os itens */
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .result-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .result-text {
+            color: #495057; /* Texto escuro */
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .vote-count {
+            font-weight: bold;
+            color: #007bff; /* Azul para destacar os votos */
+        }
+        .progress {
+            height: 20px;
+            border-radius: 10px;
+            background-color: #e9ecef; /* Fundo da barra de progresso */
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #28a745, #34d058); /* Degradê verde */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #fff;
+            transition: width 0.5s ease;
+        }
+        .btn-primary {
+            display: block;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            padding: 15px;
+            font-size: 1.2rem;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 20px;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .no-options {
+            text-align: center;
+            color: #6c757d; /* Texto cinza para mensagens de alerta */
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resultados da Enquete: "{{ question.question_text }}"</h1>
+        <div class="result-list">
+            {% if question.choice_set.all %}
+                {% for choice in question.choice_set.all %}
+                    <div class="result-item">
+                        <p class="result-text">{{ choice.choice_text }}</p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ choice.percentage_of_votes|floatformat:"0" }}%;" 
+                                 aria-valuenow="{{ choice.votes }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="{{ question.total_votes }}">
+                                {{ choice.percentage_of_votes|floatformat:"0" }}%
+                            </div>
+                        </div>
+                        <small class="vote-count">{{ choice.votes }} votos</small>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-options">Não há opções disponíveis para esta pergunta.</p>
+            {% endif %}
+        </div>
+        <a href="{% url 'polls:index' %}" class="btn-primary">Voltar para as enquetes</a>
+    </div>
+</body>
+</html>
